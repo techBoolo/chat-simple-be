@@ -45,6 +45,15 @@ io.on('connection', (socket) => {
     // date in the server
     cb(null, data)
   })
+
+  socket.on('join-room', ({ room }, cb) => {
+    socket.join(room)
+    if(socket.rooms.has(room)){
+      cb(null, room)
+    } else {
+      cb(new Error('Room not joined'))
+    }
+  })
 })
 
 server.listen(3001, () => {
