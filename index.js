@@ -54,6 +54,16 @@ io.on('connection', (socket) => {
       cb(new Error('Room not joined'))
     }
   })
+
+  socket.on('private-message-sent', ({ message, room }, cb) => {
+    if(!room) {
+      cb( new Error('Please join a room to have private conversation')) 
+    } else {
+      const data = { id: crypto.randomUUID(), message, date: new Date(), room }
+      socket.to(room).emit('private-message-received', data)
+      cb(null, data)
+    }
+  })
 })
 
 server.listen(3001, () => {
