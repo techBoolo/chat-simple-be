@@ -1,4 +1,5 @@
 import http from 'http'
+import crypto from 'crypto'
 import path from 'path'
 import express from 'express'
 import dotenv from 'dotenv'
@@ -34,6 +35,15 @@ io.on('connection', (socket) => {
     const idx = clients.indexOf(socket)
     clients.splice(idx, 1)
     io.emit('client left', { count: clients.length })
+  })
+  socket.on('public-message-sent', (data, cb) => {
+    data = {id: crypto.randomUUID(), ...data, date: new Date()}
+    socket.broadcast.emit('public-message-received', data)
+    // if we want we can modify the received data and send it back as cb in
+    // addition to emitting,
+    // users might be in different geographical region so we want to set the
+    // date in the server
+    cb(null, data)
   })
 })
 
