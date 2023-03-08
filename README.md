@@ -21,7 +21,7 @@ install the dependencies
 
 clone the frontend 
 
-  `git clone git@github.com:techBoolo/chat-simple-fe.git``
+  `git clone git@github.com:techBoolo/chat-simple-fe.git`
 
 install the dependencies of the frontend
 
